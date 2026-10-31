@@ -64,6 +64,7 @@ def load_and_clean_users(file_path):
     # Function Variables
     rows_read = len(df)
     skipped_rows = []
+    conn = sqlite3.connect(':memory:')
 
     # Inspecting the Extracted Data
     print(df.head())
@@ -89,16 +90,56 @@ def load_and_clean_users(file_path):
     print("Invalid user records removed!")
 
     # Load: Send the Transformed data into the SQL database
-    conn = sqlite3.connect(':memory:')
     df_sql = df.to_sql(name="users", connection=conn, if_exists="replace", index_label="id")
 
     # If everything went well, say so
-    print("The cleaned data was allowed into the database 'users' table!")
+    print(df_sql, " records were allowed into the database\'s 'users' table!")
+
+    # Close the connection
+    conn.close()
+
 
 # This function will load the callLogs.csv file into the callLogs table, discarding any records with incomplete data
 def load_and_clean_call_logs(file_path):
 
-    print("TODO: load_call_logs")
+    # print("TODO: load_call_logs")
+
+    # Ernest's Solution:
+
+    # Extract: loading the Raw data file into a panda's dataframe
+    df = pd.read_csv("callLogs.csv", sep=",", encoding="utf-8")
+
+    # Function Variables
+    rows_read = len(df)
+    skipped_rows = []
+
+    # Inspecting the Extracted Data
+    print(df.head())
+
+    # Accessing a row
+    print(df.loc[0])
+
+    # Accessing a column in a row
+    print(df.loc[0][""])
+
+    # Transform: Read each record in the dataframe
+    for num in range(rows_read):
+
+        # If the record has too much or too little values, drop it
+        if len(df.loc[num]) != 5:
+            skipped_rows.append(df.loc[num])
+            df = df.drop([num])
+
+    # Check how many records were dropped
+    print("Number of records dropped: ", len(skipped_rows))
+    # If the Transformation was successful, say so
+
+    # Load the cleaned data into the "call_logs" database table
+
+    # If everything went well, say so
+
+    # Close the connection
+    
 
 
 # This function will write analytics data to testUserAnalytics.csv - average call time, and number of calls per user.
