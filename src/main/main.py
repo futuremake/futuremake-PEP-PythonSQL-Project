@@ -56,6 +56,8 @@ def load_and_clean_users(file_path):
 
     # print("TODO: load_users")
 
+    # Ernest's Solution 1:
+
     # Extract: loading the raw data file into a pandas dataframe
     df = pd.read_csv(file_path, sep=",", encoding="utf-8")
 
@@ -72,9 +74,7 @@ def load_and_clean_users(file_path):
     # Accessing a column in the row
     print(df.loc[0]["firstName"])
 
-    # Ernest's Solution 1:
-
-    # Read each Row in the dataframe
+    # Transform: Read each Row in the dataframe
     for num in range(rows_read):
 
         # If the row has too much or too little values, drop it
@@ -85,10 +85,15 @@ def load_and_clean_users(file_path):
     # Check how many rows were dropped 
     print("Number of rows skipped: ", len(skipped_rows))
 
-
     # If the Transformation was successful, say it
     print("Invalid user records removed!")
 
+    # Load: Send the Transformed data into the SQL database
+    conn = sqlite3.connect(':memory:')
+    df_sql = df.to_sql(name="users", connection=conn, if_exists="replace", index_label="id")
+
+    # If everything went well, say so
+    print("The cleaned data was allowed into the database 'users' table!")
 
 # This function will load the callLogs.csv file into the callLogs table, discarding any records with incomplete data
 def load_and_clean_call_logs(file_path):
