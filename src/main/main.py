@@ -177,6 +177,8 @@ def write_user_analytics(csv_file_path):
     cursor = conn.cursor()
 
     # Extract the appropriate data from the database with an SQL Query
+    
+    # # Trial 1:
     # res = cursor.execute(
     #     """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
     #         FROM callLogs
@@ -184,25 +186,67 @@ def write_user_analytics(csv_file_path):
     #     """
     # )
 
+    # # Trial 2:
+    # sql = (
+    #     """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
+    #          FROM callLogs
+    #          GROUP BY userId, avgStartTime, avgEndTime, numCalls;
+    #      """
+    # )
+
+    # retre_logs_df = pd.read_sql(sql, conn)
+
+    # # inspect the retrieved database data
+    # print(retre_logs_df)
+
+    # # clean up the data
+    # avgDurationArray = []
+
+    # for row in range(len(ret_logs_df)):
+    #     avgDur = (ret_logs_df[avgStartTime] + ret_logs_df[avgEndTime] / 2)
+    #     avgDurationArray.append(avgDur)
+
+    # avgDur_df = pd.dataframe(data=avgDurationArray columns=["avgDuration"])
+
+    # userId_df = retre_logs_df.loc[:, [userID]]
+
+    # sol_df = merge ()
+
+    # # Trial 3:
+    # sql = (
+    #     """SELECT userId, AVG(startTime) AS avgStartTime
+    #          FROM callLogs
+    #          GROUP BY userId;
+    #      """
+    # )
+
+    # sql_2 = (
+    #     """SELECT userId, AVG(endTime) AS avgEndTime
+    #          FROM callLogs
+    #          GROUP BY userId;
+    #      """
+    # )
+
+    # sql_3 = (
+    #     """SELECT userId, count(userID) AS numCalls
+    #          FROM callLogs
+    #          GROUP BY userId;
+    #      """
+    # )
+
+    # Trial 4:
     sql = (
-        """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
-             FROM callLogs
-             GROUP BY userId, avgStartTime, avgEndTime, numCalls;
-         """
-    )
-    ret_logs_df = pd.read_sql(sql, conn)
+        """SELECT userID, 
+                avgDuration = AVG(SUM(startTime) + SUM(endTime)),
+                COUNT(phoneNumber) as numCalls
+            FROM callLogs,
+            GROUP BY userID
+        
+        """
+    ) 
 
-    # inspect the retrieved database data
-    print(ret_logs_df)
-
-    # clean up the data
-    avgDurationArray = []
-
-    for row in range(len(ret_logs_df)):
-        avgDur = (ret_logs_df[avgStartTime] + ret_logs_df[avgEndTime] / 2)
-        avgDurationArray.append(avgDur)
-
-    avgDur_df = pd.dataframe(data=avgDurationArray columns=["avgDuration"])
+    retre_data_df = pd.read_sql(sql, conn)
+    print(retre_data_df)
 
     # Load the data into the 'userAnalytics.csv' file
 
