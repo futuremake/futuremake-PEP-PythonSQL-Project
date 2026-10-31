@@ -177,16 +177,30 @@ def write_user_analytics(csv_file_path):
     cursor = conn.cursor()
 
     # Extract the appropriate data from the database with an SQL Query
-    res = cursor.execute(
+    # res = cursor.execute(
+    #     """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
+    #         FROM callLogs
+    #         GROUP BY userId, avgStartTime, avgEndTime, numCalls;
+    #     """
+    # )
+
+    sql = (
         """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
-            FROM callLogs
-            GROUP BY userId, avgStartTime, avgEndTime, numCalls;
-        """
+             FROM callLogs
+             GROUP BY userId, avgStartTime, avgEndTime, numCalls;
+         """
     )
+    ret_logs_df = pd.read_sql(sql, conn)
 
     # inspect the retrieved database data
-    print(res.fetchall())
+    print(ret_logs_df)
 
+    # clean up the data
+    avgDurationArray = []
+
+    for row in range(len(ret_logs_df)):
+        avgDur = (ret_logs_df[avgStartTime] + ret_logs_df[avgEndTime] / 2)
+        avgDurationArray.append(avgDur)
     # Load the data into the 'userAnalytics.csv' file
 
     # if the operation was successful, say so
