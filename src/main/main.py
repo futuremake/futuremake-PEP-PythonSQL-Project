@@ -178,6 +178,7 @@ def write_user_analytics(csv_file_path):
 
     # Extract the appropriate data from the database with an SQL Query
     
+
     # # Trial 1:
     # res = cursor.execute(
     #     """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
@@ -185,6 +186,7 @@ def write_user_analytics(csv_file_path):
     #         GROUP BY userId, avgStartTime, avgEndTime, numCalls;
     #     """
     # )
+
 
     # # Trial 2:
     # sql = (
@@ -211,6 +213,7 @@ def write_user_analytics(csv_file_path):
     # userId_df = retre_logs_df.loc[:, [userID]]
 
     # sol_df = merge ()
+
 
     # # Trial 3:
     # sql = (
@@ -240,8 +243,7 @@ def write_user_analytics(csv_file_path):
                 avgDuration = AVG(SUM(startTime) + SUM(endTime)),
                 COUNT(phoneNumber) as numCalls
             FROM callLogs,
-            GROUP BY userID
-        
+            GROUP BY userID;
         """
     ) 
 
@@ -249,16 +251,49 @@ def write_user_analytics(csv_file_path):
     print(retre_data_df)
 
     # Load the data into the 'userAnalytics.csv' file
+    retre_data_df.to_csv(csv_file_path)
 
     # if the operation was successful, say so
     print("The data was successfully downloaded for analysis!")
+
+    # Close the cursor and the connection
+    cursor.close()
+    conn.close()
 
 
 # This function will write the callLogs ordered by userId, then start time.
 # Then, write the ordered callLogs to orderedCalls.csv
 def write_ordered_calls(csv_file_path):
 
-    print("TODO: write_ordered_calls")
+    # print("TODO: write_ordered_calls")
+
+    # Ernest's Solution:
+
+    # Create the connection(s) with the database
+    conn = sqlite3.connect(':memory:')
+    cursor = conn.cursor()
+
+    # Extract the Data from the Database with a SQL Query
+    sql = (
+        """SELECT callId, phoneNumber, startTime, endTime, direction, userId
+            FROM callLogs
+            ORDER BY userId, startTime;
+        """
+    )
+
+    retre_data_df = pd.read_sql(sql, conn)
+    print(retre_data_df)
+    
+    # Load the data into the 'orderedCalls.csv' file
+    retre_data_df.to_csv(csv_file_path)
+
+    # If the operation was successful, say so
+    print("The call logs were successfully downloaded and ordered for analysis!")
+
+    # Close the cursor and the connection
+    cursor.close()
+    conn.close()
+
 
 
 
