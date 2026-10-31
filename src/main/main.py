@@ -154,10 +154,11 @@ def load_and_clean_call_logs(file_path):
     # If the Transformation was successful, say so
     print("The Transformation was a success!")
     
-    # Load the cleaned data into the "call_logs" database table
-    df_sql = df.to_sql(name="callLogs", )
-    # If everything went well, say so
+    # Load the cleaned data into the "callLogs" database table
+    df_sql = df.to_sql(name="callLogs", connection=conn, if_exists='replace', index_label="id")
 
+    # If everything went well, say so
+    print(df_sql, " records were added into the database table 'callLogs!'")
     # Close the connection
     
 
