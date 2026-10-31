@@ -174,9 +174,18 @@ def write_user_analytics(csv_file_path):
 
     # Create the connection(s) with the database
     conn = sqlite3.connect(':memory:')
-    cursor = conn.cursor("")
+    cursor = conn.cursor()
 
     # Extract the appropriate data from the database with an SQL Query
+    res = cursor.execute(
+        """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
+            FROM callLogs
+            GROUP BY userId, avgStartTime, avgEndTime, numCalls;
+        """
+    )
+
+    # inspect the retrieved database data
+    print(res.fetchall())
 
     # Load the data into the 'userAnalytics.csv' file
 
