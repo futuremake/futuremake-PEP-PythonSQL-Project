@@ -54,7 +54,40 @@ def main():
 # This function will load the users.csv file into the users table, discarding any records with incomplete data
 def load_and_clean_users(file_path):
 
-    print("TODO: load_users")
+    # print("TODO: load_users")
+
+    # Extract: loading the raw data file into a pandas dataframe
+    df = pd.read_csv(file_path, sep=",", encoding="utf-8")
+
+    # Function Variables
+    rows_read = len(df)
+    skipped_rows = []
+
+    # Inspecting the Extracted Data
+    print(df.head())
+
+    # Accessing a row
+    print(df.loc[0])
+
+    # Accessing a column in the row
+    print(df.loc[0]["firstName"])
+
+    # Ernest's Solution 1:
+
+    # Read each Row in the dataframe
+    for num in range(rows_read):
+
+        # If the row has too much or too little values, drop it
+        if len(df.loc[0]) != 2:
+            skipped_rows.append(df.loc[num])
+            df = df.drop([num])
+
+    # Check how many rows were dropped 
+    print("Number of rows skipped: ", len(skipped_rows))
+
+
+    # If the Transformation was successful, say it
+    print("Invalid user records removed!")
 
 
 # This function will load the callLogs.csv file into the callLogs table, discarding any records with incomplete data
