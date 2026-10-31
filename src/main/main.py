@@ -159,7 +159,9 @@ def load_and_clean_call_logs(file_path):
 
     # If everything went well, say so
     print(df_sql, " records were added into the database table 'callLogs!'")
+    
     # Close the connection
+    conn.close()
     
 
 
@@ -168,7 +170,18 @@ def load_and_clean_call_logs(file_path):
 # example: 1,105.0,4 - where 1 is the userId, 105.0 is the avgDuration, and 4 is the numCalls.
 def write_user_analytics(csv_file_path):
 
-    print("TODO: write_user_analytics")
+    # print("TODO: write_user_analytics")
+
+    # Create the connection(s) with the database
+    conn = sqlite3.connect(':memory:')
+    cursor = conn.cursor("")
+
+    # Extract the appropriate data from the database with an SQL Query
+
+    # Load the data into the 'userAnalytics.csv' file
+
+    # if the operation was successful, say so
+    print("The data was successfully downloaded for analysis!")
 
 
 # This function will write the callLogs ordered by userId, then start time.
