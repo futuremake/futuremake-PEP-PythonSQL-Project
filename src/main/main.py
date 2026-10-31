@@ -201,6 +201,9 @@ def write_user_analytics(csv_file_path):
     for row in range(len(ret_logs_df)):
         avgDur = (ret_logs_df[avgStartTime] + ret_logs_df[avgEndTime] / 2)
         avgDurationArray.append(avgDur)
+
+    avgDur_df = pd.dataframe(data=avgDurationArray columns=["avgDuration"])
+
     # Load the data into the 'userAnalytics.csv' file
 
     # if the operation was successful, say so
