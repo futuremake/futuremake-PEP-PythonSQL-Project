@@ -2,6 +2,10 @@ import csv
 import os
 import sqlite3
 
+# Ernest's Imports
+import pandas as pd
+import math
+
 # Resolve the resources folder relative to this file, so paths work
 # no matter what directory the script is run from.
 _RESOURCES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'resources')
@@ -79,9 +83,17 @@ def load_and_clean_users(file_path):
     for num in range(rows_read):
 
         # If the row has too much or too little values, drop it
-        if len(df.loc[0]) != 2:
+        if len(df.loc[num]) != 2:
             skipped_rows.append(df.loc[num])
             df = df.drop([num])
+            continue
+            
+        # If the row has any missing values, drop it
+        for col in len(df.loc[num]):
+            if df.loc[num][col] == '':
+                skipped_rows.append(df.loc[num])
+                df = df.dropna(axis=0)
+                continue
 
     # Check how many rows were dropped 
     print("Number of rows skipped: ", len(skipped_rows))
@@ -107,7 +119,7 @@ def load_and_clean_call_logs(file_path):
     # Ernest's Solution:
 
     # Extract: loading the Raw data file into a panda's dataframe
-    df = pd.read_csv("callLogs.csv", sep=",", encoding="utf-8")
+    df = pd.read_csv(file_path, sep=",", encoding="utf-8")
 
     # Function Variables
     rows_read = len(df)
@@ -120,7 +132,7 @@ def load_and_clean_call_logs(file_path):
     print(df.loc[0])
 
     # Accessing a column in a row
-    print(df.loc[0][""])
+    print(df.loc[0]["phoneNumber"])
 
     # Transform: Read each record in the dataframe
     for num in range(rows_read):
@@ -130,12 +142,20 @@ def load_and_clean_call_logs(file_path):
             skipped_rows.append(df.loc[num])
             df = df.drop([num])
 
+        # If the record has missing values, drop it
+        for col in len(df.loc[num]):
+            if df.loc[num][col] == '':
+                skipped_rows.append(df.loc[num])
+                df = df.drop([num])
+
     # Check how many records were dropped
     print("Number of records dropped: ", len(skipped_rows))
+    
     # If the Transformation was successful, say so
-
+    print("The Transformation was a success!")
+    
     # Load the cleaned data into the "call_logs" database table
-
+    df_sql = df.to_sql(name="callLogs", )
     # If everything went well, say so
 
     # Close the connection
