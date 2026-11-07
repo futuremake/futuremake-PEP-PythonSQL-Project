@@ -1,7 +1,7 @@
-commit 483cd91cb6bc69d20ecd0bddd2669491dc005dfc
+commit 9eb2ae8041661cff62d9de9ab2eb1096af8596af
 Author: futuremake <futuremake@github.com>
-Date:   Sat Nov 7 02:39:52 2026 +0000
+Date:   Sat Nov 7 05:20:58 2026 +0000
 
-    Updating code to work without Pandas - load_and_clean_user() - part 1
+    Changed function "load_and_clean_users()" to work without pandas
 
- 1 file changed, 52 insertions(+), 38 deletions(-)
+ 1 file changed, 36 insertions(+), 12 deletions(-)

@@ -45,7 +45,7 @@ def main():
     write_ordered_calls(os.path.join(_RESOURCES_DIR, 'orderedCalls.csv'))
 
     # Helper method that prints the contents of the users and callLogs tables. Uncomment to see data.
-    # select_from_users_and_call_logs()
+    select_from_users_and_call_logs()
 
     # Close the cursor and connection. main function ends here.
     cursor.close()
@@ -58,11 +58,11 @@ def main():
 # This function will load the users.csv file into the users table, discarding any records with incomplete data
 def load_and_clean_users(file_path):
 
-    print("TODO: load_users")
+    # print("TODO: load_users")
 
-    # Trial 1:
-    # # Ernest's Solution 1:
-
+    # Ernest's Solution 1:
+    
+    # # Trial 1:
     # # Extract: loading the raw data file into a pandas dataframe
     # df = pd.read_csv(file_path, sep=",", encoding="utf-8")
 
@@ -173,8 +173,9 @@ def load_and_clean_call_logs(file_path):
 
     print("TODO: load_call_logs")
 
-    # # Ernest's Solution:
+    # Ernest's Solution:
 
+    # # Trial 1:
     # # Extract: loading the Raw data file into a panda's dataframe
     # df = pd.read_csv(file_path, sep=",", encoding="utf-8")
 
@@ -219,7 +220,55 @@ def load_and_clean_call_logs(file_path):
     
     # # Close the connection
     # conn.close()
+
     
+    # Trial 2:
+    
+    # Declare variables
+    file_headers = []
+    file_data = []
+    file_data_2 = []
+    file_data_3 = []
+    
+    # Extract: load the data from the csv file
+    with open(file_path, "r") as log_file:
+        content = log_file.read()
+        print(content)
+
+        # Getting the file headers
+        log_file.seek(0)
+        file_headers = log_file.readline().replace("\n", '').split(",")
+        print(file_headers)
+
+        # Getting the main file data
+        file_data = log_file.readlines()
+        print(file_data)
+
+
+    # Transform: transform the data, cleaning it of faulty records
+    #           and making it transferable into an SQL database
+    for line in file_data:
+        
+        line = line.replace("\n", '')
+        temp_tup = line.split(",")
+
+        if len(temp_tup) != 5:
+            continue
+
+        if (temp_tup[0] == '') | (temp_tup[1] == '') | (temp_tup[2] == '') | (temp_tup[3] == '') | (temp_tup[4] == ''):
+            continue
+
+        print(temp_tup)
+        file_data_2.append(temp_tup)
+
+    # Load: download the data into the database    
+    for i, val in enumerate(file_data_2):
+        print((i, val[0], val[1], val[2], val[3], val[4]))
+        file_data_3.append((i, val[0], val[1], val[2], val[3], val[4]))
+
+    cursor.executemany("INSERT INTO callLogs VALUES (?, ?, ?, ?, ?, ?)", file_data_3)
+
+    print("Congradulations! you have populated the callLogs table! :)")
 
 
 # This function will write analytics data to testUserAnalytics.csv - average call time, and number of calls per user.
