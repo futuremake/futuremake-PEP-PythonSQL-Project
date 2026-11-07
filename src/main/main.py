@@ -45,7 +45,7 @@ def main():
     write_ordered_calls(os.path.join(_RESOURCES_DIR, 'orderedCalls.csv'))
 
     # Helper method that prints the contents of the users and callLogs tables. Uncomment to see data.
-    # select_from_users_and_call_logs()
+    select_from_users_and_call_logs()
 
     # Close the cursor and connection. main function ends here.
     cursor.close()
@@ -58,57 +58,71 @@ def main():
 # This function will load the users.csv file into the users table, discarding any records with incomplete data
 def load_and_clean_users(file_path):
 
-    # print("TODO: load_users")
+    print("TODO: load_users")
 
-    # Ernest's Solution 1:
+    # Trial 1:
+    # # Ernest's Solution 1:
 
-    # Extract: loading the raw data file into a pandas dataframe
-    df = pd.read_csv(file_path, sep=",", encoding="utf-8")
+    # # Extract: loading the raw data file into a pandas dataframe
+    # df = pd.read_csv(file_path, sep=",", encoding="utf-8")
 
-    # Function Variables
-    rows_read = len(df)
-    skipped_rows = []
-    conn = sqlite3.connect(':memory:')
+    # # Function Variables
+    # rows_read = len(df)
+    # skipped_rows = []
+    # conn = sqlite3.connect(':memory:')
 
-    # Inspecting the Extracted Data
-    print(df.head())
+    # # Inspecting the Extracted Data
+    # print(df.head())
 
-    # Accessing a row
-    print(df.loc[0])
+    # # Accessing a row
+    # print(df.loc[0])
 
-    # Accessing a column in the row
-    print(df.loc[0]["firstName"])
+    # # Accessing a column in the row
+    # print(df.loc[0]["firstName"])
 
-    # Transform: Read each Row in the dataframe
-    for num in range(rows_read):
+    # # Transform: Read each Row in the dataframe
+    # for num in range(rows_read):
 
-        # If the row has too much or too little values, drop it
-        if len(df.loc[num]) != 2:
-            skipped_rows.append(df.loc[num])
-            df = df.drop([num])
-            continue
+    #     # If the row has too much or too little values, drop it
+    #     if len(df.loc[num]) != 2:
+    #         skipped_rows.append(df.loc[num])
+    #         df = df.drop([num])
+    #         continue
             
-        # If the row has any missing values, drop it
-        for col in len(df.loc[num]):
-            if df.loc[num][col] == '':
-                skipped_rows.append(df.loc[num])
-                df = df.dropna(axis=0)
-                continue
+    #     # If the row has any missing values, drop it
+    #     for col in len(df.loc[num]):
+    #         if df.loc[num][col] == '':
+    #             skipped_rows.append(df.loc[num])
+    #             df = df.dropna(axis=0)
+    #             continue
 
-    # Check how many rows were dropped 
-    print("Number of rows skipped: ", len(skipped_rows))
+    # # Check how many rows were dropped 
+    # print("Number of rows skipped: ", len(skipped_rows))
 
-    # If the Transformation was successful, say it
-    print("Invalid user records removed!")
+    # # If the Transformation was successful, say it
+    # print("Invalid user records removed!")
 
-    # Load: Send the Transformed data into the SQL database
-    df_sql = df.to_sql(name="users", connection=conn, if_exists="replace", index_label="id")
+    # # Load: Send the Transformed data into the SQL database
+    # df_sql = df.to_sql(name="users", connection=conn, if_exists="replace", index_label="id")
 
-    # If everything went well, say so
-    print(df_sql, " records were allowed into the database\'s 'users' table!")
+    # # If everything went well, say so
+    # print(df_sql, " records were allowed into the database\'s 'users' table!")
 
-    # Close the connection
-    conn.close()
+    # # Close the connection
+    # conn.close()
+
+
+    # Trial 2
+
+    # Extract: get the raw data from the users.csv
+    with open("users.csv", "r")
+
+
+    # Transform: Transform the data into a form that can be
+    #            entered into the database
+
+    # Load: enter the data into the database
+
 
 
 # This function will load the callLogs.csv file into the callLogs table, discarding any records with incomplete data
