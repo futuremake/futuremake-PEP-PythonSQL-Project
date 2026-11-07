@@ -3,7 +3,7 @@ import os
 import sqlite3
 
 # Ernest's Imports
-import pandas as pd
+# import pandas as pd
 import math
 
 # Resolve the resources folder relative to this file, so paths work
@@ -45,7 +45,7 @@ def main():
     write_ordered_calls(os.path.join(_RESOURCES_DIR, 'orderedCalls.csv'))
 
     # Helper method that prints the contents of the users and callLogs tables. Uncomment to see data.
-    select_from_users_and_call_logs()
+    # select_from_users_and_call_logs()
 
     # Close the cursor and connection. main function ends here.
     cursor.close()
@@ -113,9 +113,28 @@ def load_and_clean_users(file_path):
 
 
     # Trial 2
-
     # Extract: get the raw data from the users.csv
-    with open("users.csv", "r")
+    
+    # Declare variables
+    file_headers = []
+    file_data = []
+    file_dict = []
+
+    with open("../../resources/users.csv", "r") as user_file:
+        # content = user_file.read()
+        # print(content)
+
+        # Getting the file headers
+        position = user_file.seek(0)
+        print(position)
+        
+        position = user_file.seek(2,0)
+        print(position)
+
+        # Getting the file data rows
+
+        
+        #
 
 
     # Transform: Transform the data into a form that can be
@@ -128,54 +147,54 @@ def load_and_clean_users(file_path):
 # This function will load the callLogs.csv file into the callLogs table, discarding any records with incomplete data
 def load_and_clean_call_logs(file_path):
 
-    # print("TODO: load_call_logs")
+    print("TODO: load_call_logs")
 
-    # Ernest's Solution:
+    # # Ernest's Solution:
 
-    # Extract: loading the Raw data file into a panda's dataframe
-    df = pd.read_csv(file_path, sep=",", encoding="utf-8")
+    # # Extract: loading the Raw data file into a panda's dataframe
+    # df = pd.read_csv(file_path, sep=",", encoding="utf-8")
 
-    # Function Variables
-    rows_read = len(df)
-    skipped_rows = []
+    # # Function Variables
+    # rows_read = len(df)
+    # skipped_rows = []
 
-    # Inspecting the Extracted Data
-    print(df.head())
+    # # Inspecting the Extracted Data
+    # print(df.head())
 
-    # Accessing a row
-    print(df.loc[0])
+    # # Accessing a row
+    # print(df.loc[0])
 
-    # Accessing a column in a row
-    print(df.loc[0]["phoneNumber"])
+    # # Accessing a column in a row
+    # print(df.loc[0]["phoneNumber"])
 
-    # Transform: Read each record in the dataframe
-    for num in range(rows_read):
+    # # Transform: Read each record in the dataframe
+    # for num in range(rows_read):
 
-        # If the record has too much or too little values, drop it
-        if len(df.loc[num]) != 5:
-            skipped_rows.append(df.loc[num])
-            df = df.drop([num])
+    #     # If the record has too much or too little values, drop it
+    #     if len(df.loc[num]) != 5:
+    #         skipped_rows.append(df.loc[num])
+    #         df = df.drop([num])
 
-        # If the record has missing values, drop it
-        for col in len(df.loc[num]):
-            if df.loc[num][col] == '':
-                skipped_rows.append(df.loc[num])
-                df = df.drop([num])
+    #     # If the record has missing values, drop it
+    #     for col in len(df.loc[num]):
+    #         if df.loc[num][col] == '':
+    #             skipped_rows.append(df.loc[num])
+    #             df = df.drop([num])
 
-    # Check how many records were dropped
-    print("Number of records dropped: ", len(skipped_rows))
+    # # Check how many records were dropped
+    # print("Number of records dropped: ", len(skipped_rows))
     
-    # If the Transformation was successful, say so
-    print("The Transformation was a success!")
+    # # If the Transformation was successful, say so
+    # print("The Transformation was a success!")
     
-    # Load the cleaned data into the "callLogs" database table
-    df_sql = df.to_sql(name="callLogs", connection=conn, if_exists='replace', index_label="id")
+    # # Load the cleaned data into the "callLogs" database table
+    # df_sql = df.to_sql(name="callLogs", connection=conn, if_exists='replace', index_label="id")
 
-    # If everything went well, say so
-    print(df_sql, " records were added into the database table 'callLogs!'")
+    # # If everything went well, say so
+    # print(df_sql, " records were added into the database table 'callLogs!'")
     
-    # Close the connection
-    conn.close()
+    # # Close the connection
+    # conn.close()
     
 
 
@@ -184,7 +203,7 @@ def load_and_clean_call_logs(file_path):
 # example: 1,105.0,4 - where 1 is the userId, 105.0 is the avgDuration, and 4 is the numCalls.
 def write_user_analytics(csv_file_path):
 
-    # print("TODO: write_user_analytics")
+    print("TODO: write_user_analytics")
 
     # Create the connection(s) with the database
     conn = sqlite3.connect(':memory:')
@@ -251,62 +270,62 @@ def write_user_analytics(csv_file_path):
     #      """
     # )
 
-    # Trial 4:
-    sql = (
-        """SELECT userID, 
-                avgDuration = AVG(SUM(startTime) + SUM(endTime)),
-                COUNT(phoneNumber) as numCalls
-            FROM callLogs,
-            GROUP BY userID;
-        """
-    ) 
+    # # Trial 4:
+    # sql = (
+    #     """SELECT userID, 
+    #             avgDuration = AVG(SUM(startTime) + SUM(endTime)),
+    #             COUNT(phoneNumber) as numCalls
+    #         FROM callLogs,
+    #         GROUP BY userID;
+    #     """
+    # ) 
 
-    retre_data_df = pd.read_sql(sql, conn)
-    print(retre_data_df)
+    # retre_data_df = pd.read_sql(sql, conn)
+    # print(retre_data_df)
 
-    # Load the data into the 'userAnalytics.csv' file
-    retre_data_df.to_csv(csv_file_path)
+    # # Load the data into the 'userAnalytics.csv' file
+    # retre_data_df.to_csv(csv_file_path)
 
-    # if the operation was successful, say so
-    print("The data was successfully downloaded for analysis!")
+    # # if the operation was successful, say so
+    # print("The data was successfully downloaded for analysis!")
 
-    # Close the cursor and the connection
-    cursor.close()
-    conn.close()
+    # # Close the cursor and the connection
+    # cursor.close()
+    # conn.close()
 
 
 # This function will write the callLogs ordered by userId, then start time.
 # Then, write the ordered callLogs to orderedCalls.csv
 def write_ordered_calls(csv_file_path):
 
-    # print("TODO: write_ordered_calls")
+    print("TODO: write_ordered_calls")
 
-    # Ernest's Solution:
+    # # Ernest's Solution:
 
-    # Create the connection(s) with the database
-    conn = sqlite3.connect(':memory:')
-    cursor = conn.cursor()
+    # # Create the connection(s) with the database
+    # conn = sqlite3.connect(':memory:')
+    # cursor = conn.cursor()
 
-    # Extract the Data from the Database with a SQL Query
-    sql = (
-        """SELECT callId, phoneNumber, startTime, endTime, direction, userId
-            FROM callLogs
-            ORDER BY userId, startTime;
-        """
-    )
+    # # Extract the Data from the Database with a SQL Query
+    # sql = (
+    #     """SELECT callId, phoneNumber, startTime, endTime, direction, userId
+    #         FROM callLogs
+    #         ORDER BY userId, startTime;
+    #     """
+    # )
 
-    retre_data_df = pd.read_sql(sql, conn)
-    print(retre_data_df)
+    # retre_data_df = pd.read_sql(sql, conn)
+    # print(retre_data_df)
     
-    # Load the data into the 'orderedCalls.csv' file
-    retre_data_df.to_csv(csv_file_path)
+    # # Load the data into the 'orderedCalls.csv' file
+    # retre_data_df.to_csv(csv_file_path)
 
-    # If the operation was successful, say so
-    print("The call logs were successfully downloaded and ordered for analysis!")
+    # # If the operation was successful, say so
+    # print("The call logs were successfully downloaded and ordered for analysis!")
 
-    # Close the cursor and the connection
-    cursor.close()
-    conn.close()
+    # # Close the cursor and the connection
+    # cursor.close()
+    # conn.close()
 
 
 
