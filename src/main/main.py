@@ -278,9 +278,9 @@ def write_user_analytics(csv_file_path):
 
     print("TODO: write_user_analytics")
 
-    # Create the connection(s) with the database
-    conn = sqlite3.connect(':memory:')
-    cursor = conn.cursor()
+    # # Create the connection(s) with the database
+    # conn = sqlite3.connect(':memory:')
+    # cursor = conn.cursor()
 
     # Extract the appropriate data from the database with an SQL Query
     
@@ -365,6 +365,43 @@ def write_user_analytics(csv_file_path):
     # # Close the cursor and the connection
     # cursor.close()
     # conn.close()
+
+
+    # Trial 5
+    # Variable Declaration:
+    content = ""
+    content_2 = ""
+    dict_1 = {}
+    dict_2 = {}
+
+
+    # Extract: Get the data from the SQL "callLogs" table
+    #          Transformed as much as possible
+    
+    # content = cursor.execute("""SELECT userID, 
+    #                                 AVG(SUM(endTime) - SUM(startTime)) AS avgDuration, 
+    #                                 COUNT(phoneNumber) AS numCalls
+    #                             FROM callLogs
+    #                             GROUP BY userID;        
+    #                         """)
+    
+    content = cursor.execute("""SELECT userID, 
+                                    SUM(startTime) AS sumStartTime, 
+                                    COUNT(phoneNumber) AS numCalls
+                                FROM callLogs
+                                GROUP BY userID;        
+                            """)
+    
+
+
+    print(content)
+
+    # Transform: Transform the data into a form that can go into a CSV
+    #            File
+
+
+
+    # Load: Load the data into the chosen CSV File
 
 
 # This function will write the callLogs ordered by userId, then start time.
