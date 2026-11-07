@@ -118,30 +118,54 @@ def load_and_clean_users(file_path):
     # Declare variables
     file_headers = []
     file_data = []
-    file_dict = []
+    file_data_2 = []
+    file_data_3 = []
 
-    with open("../../resources/users.csv", "r") as user_file:
-        # content = user_file.read()
-        # print(content)
+    with open(file_path, "r") as user_file:
+        
+        # Check if the data was read
+        content = user_file.read()
+        print(content)
 
         # Getting the file headers
-        position = user_file.seek(0)
-        print(position)
+        user_file.seek(0)
+        file_headers = [user_file.readline().replace("\n", '').split()]
+        print(file_headers)
         
-        position = user_file.seek(2,0)
-        print(position)
+        
 
         # Getting the file data rows
-
-        
-        #
-
+        file_data = user_file.readlines()
+        print(file_data)
 
     # Transform: Transform the data into a form that can be
     #            entered into the database
+    for line in file_data:
+        line = line.replace('\n', '')
+        temp_tup = (line.split(","))
+        # print(temp_tup)
+
+        if len(temp_tup) != 2:
+            continue
+
+        if (temp_tup[0] == '') | (temp_tup[1] == ''):
+            continue
+    
+        file_data_2.append(temp_tup)
+
+    print(file_data_2)
+
 
     # Load: enter the data into the database
+    for i, val in enumerate(file_data_2):
+        file_data_3.append((i+1, val[0], val[1]))
+        
+    cursor.executemany("INSERT INTO users VALUES (?, ?, ?)", file_data_3)
 
+    print("population of user table complete!")
+
+    # cursor.close()
+    # conn.close()
 
 
 # This function will load the callLogs.csv file into the callLogs table, discarding any records with incomplete data
