@@ -370,39 +370,47 @@ def write_user_analytics(csv_file_path):
     # Trial 5
     # Variable Declaration:
     content = ""
-    content_2 = ""
+    content_data = []
+    analysis_array = []
+    
     dict_1 = {}
     dict_2 = {}
 
 
     # Extract: Get the data from the SQL "callLogs" table
     #          Transformed as much as possible
-    
-    # content = cursor.execute("""SELECT userID, 
-    #                                 AVG(SUM(endTime) - SUM(startTime)) AS avgDuration, 
-    #                                 COUNT(phoneNumber) AS numCalls
-    #                             FROM callLogs
-    #                             GROUP BY userID;        
-    #                         """)
-    
     content = cursor.execute("""SELECT userID, 
-                                    SUM(startTime) AS sumStartTime, 
+                                    SUM(startTime) AS sumStartTime,
+                                    SUM(endTime) As sumEndTime, 
                                     COUNT(phoneNumber) AS numCalls
                                 FROM callLogs
                                 GROUP BY userID;        
                             """)
-    
-
-
-    print(content)
+    print("Content 1 Info:")
+    content_data = cursor.fetchall()
+    print(content_data)
 
     # Transform: Transform the data into a form that can go into a CSV
     #            File
-
-
+    for record in content_data:
+        temp_dur = record[2] - record[1]
+        print("Call Duration:", temp_dur)
+        temp_tup = []
+        temp_tup.append(record[0])
+        temp_tup.append(temp_dur)
+        temp_tup.append(record[3])
+        print("Information Prepped for loading:", temp_tup)
+        analysis_array.append(temp_tup)
 
     # Load: Load the data into the chosen CSV File
+    with open(csv_file_path, "a") as analy_file:
+        for record in analysis_array:
+            print(record)
+            analy_file.write(f"{record[0]},{record[1]},{record[2]}\n")
 
+    # If the opperation was successful, say so
+    print("User data successfully analyzed, and saved!")
+    
 
 # This function will write the callLogs ordered by userId, then start time.
 # Then, write the ordered callLogs to orderedCalls.csv
