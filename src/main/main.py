@@ -393,7 +393,7 @@ def write_user_analytics(csv_file_path):
     # Transform: Transform the data into a form that can go into a CSV
     #            File
     for record in content_data:
-        temp_dur = record[2] - record[1]
+        temp_dur = (record[2] * 1.0) - (record[1] * 1.0) / 2
         print("Call Duration:", temp_dur)
         temp_tup = []
         temp_tup.append(record[0])
@@ -408,7 +408,7 @@ def write_user_analytics(csv_file_path):
             print(record)
             analy_file.write(f"{record[0]},{record[1]},{record[2]}\n")
 
-    # If the opperation was successful, say so
+    # If the operation was successful, say so
     print("User data successfully analyzed, and saved!")
     
 
@@ -418,8 +418,9 @@ def write_ordered_calls(csv_file_path):
 
     print("TODO: write_ordered_calls")
 
-    # # Ernest's Solution:
+    # Ernest's Solution:
 
+    # Trial 1:
     # # Create the connection(s) with the database
     # conn = sqlite3.connect(':memory:')
     # cursor = conn.cursor()
@@ -445,6 +446,55 @@ def write_ordered_calls(csv_file_path):
     # cursor.close()
     # conn.close()
 
+
+    # Trial 2: Working without pandas
+
+    # Variable Declarations
+    content_data = []
+    transform_array = []
+    transform_array_2 = []
+
+
+    # Extract: Get the information from the "callLogs" table
+    cursor.execute("""SELECT phoneNumber, startTime, endTime, direction, userID 
+                      FROM callLogs
+                      ORDER BY userID, startTime;
+    """)
+    content_data = cursor.fetchall()
+    print("Extracted content data:", content_data)
+
+    # Transform: Transform the data into a form that can go into a CSV table
+    for record in content_data:
+        temp_tup = []
+        temp_tup.append(record[0])
+        temp_tup.append(record[1])
+        temp_tup.append(record[2])
+        temp_tup.append(record[3])
+        temp_tup.append(record[4])
+        print("Record to add to the pre-loading list:", temp_tup)
+        transform_array.append(temp_tup)
+
+    for i, record in enumerate(transform_array):
+        temp_tup = []
+        temp_tup.append(i)
+        temp_tup.append(record[0])
+        temp_tup.append(record[1])
+        temp_tup.append(record[2])
+        temp_tup.append(record[3])
+        temp_tup.append(record[4])
+        print("Record to add to the main loading list:", temp_tup)
+        transform_array_2.append(temp_tup)
+
+    print("The Main List: ", transform_array_2)
+
+    # Load: Load the information into the CSV table
+    with open(csv_file_path, "a") as order_file:
+        for record in transform_array_2:
+            print(record)
+            order_file.write(f"{record[0]},{record[1]},{record[2]},{record[3]},{record[4]},{record[5]}\n")
+
+    # If the operation was successful, say so.
+    print("The operation to output ordered calls was a complete success!")
 
 
 
