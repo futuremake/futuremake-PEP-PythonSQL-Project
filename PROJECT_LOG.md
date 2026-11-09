@@ -19,7 +19,7 @@ First: the developer will extract data about callers and their calls from csv fi
 
 Second: the developer will extract the "Call Log" data from the database, transform it for analysis, then load it into a CSV file. 
 
-Third: finally, the developer will extract the "Call Log" data from the database, in assending order by "userID" and the number of calls a user made. Then, the developer would transform it, giving each record a "callID" Finally, the developer would load the ordered data into a CSV file, for analysis and storage. 
+Third: finally, the developer will extract the "Call Log" data from the database, in ascending order by "userID" and the number of calls a user made. Then, the developer would transform it, giving each record a "callID" Finally, the developer would load the ordered data into a CSV file, for analysis and storage. 
 
 
 ## October 31st, 2026, Saturday
@@ -37,11 +37,13 @@ Third: finally, the developer will extract the "Call Log" data from the database
 
 2. The code output to the console was cleaned up, and comments were added in "main.py". However, the outputs to "orderedCalls.csv" and "userAnalytics.csv" could be looked at.
 
-3. The data output to "userAnalytics" in the "avgDuration" section was faulty, because the formula to calulate it was faulty. Fixing the formulas in the SQL Query and during Transformation fixed the data in the "avgDuration" section.
+3. The data output to "userAnalytics" in the "avgDuration" section was faulty, because the formula to calculate it was faulty. Fixing the formulas in the SQL Query and during Transformation fixed the data in the "avgDuration" section.
 
 4. The project code was tested using "lab_test.py". the tests revealed a flaw with cleaning user data before loading into the database. The flaw was fixed.
 
 ## November 9th, 2026 Monday
 
-1. The reason why the "ProjectTests.test_user_analytics_are_correct" test failed was because the file that the data was output to in the tests "testUserAnalytics.csv" had an extra empty line at the end. The function "writeUserAnalytics()" appends data to the end of the file. So, when the tests evaluated the "testUserAnalytics.csv" file, it saw that empty space and declared the test failed. Simply removing the space from "testUserAnalytics.csv" enabled the test to pass. Also, in "main.py", in function "writeUserAnalytics()", when loading the data into the csv file, the encoding was explictly set to "utf-8" to ensure the encoding is the same across all computer systems.
+1. The reason why the "ProjectTests.test_user_analytics_are_correct" test failed was because the file that the data was output to in the tests "testUserAnalytics.csv" had an extra empty line at the end. The function "writeUserAnalytics()" appends data to the end of the file. So, when the tests evaluated the "testUserAnalytics.csv" file, it saw that empty space and declared the test failed. Simply removing the space from "testUserAnalytics.csv" enabled the test to pass. Also, in "main.py", in function "writeUserAnalytics()", when loading the data into the csv file, the encoding was explicitly set to "utf-8" to ensure the encoding is the same across all computer systems.
+
+2. After repeated testing, the developer realised that it wasn't the "CSV test" files that needed to be changed, it was the output method of writing to a CSV file in "write_user_analytics()" and "write_ordered_calls()" on main.py. First, the developer changed the "a" for "append" to "w" for "overwrite" in both functions. Second, the developer added the file headers to the overwritten file first. Third, the developer added the main data. Testing proved that the changes worked. This project is officially completed. The developer hopes that it was a good demonstration of his skills. Happy Holidays! :)  
 
