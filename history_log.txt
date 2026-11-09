@@ -1,7 +1,7 @@
-commit 28e3d1e3345cb947178da602490a818c7ce127d9
+commit ac9a2ac478efe64268bcc85259646e8f09b22484
 Author: futuremake <futuremake@github.com>
-Date:   Sun Nov 8 21:33:23 2026 +0000
+Date:   Mon Nov 9 03:42:22 2026 +0000
 
-    Updated function "write_user_analytics()" to work without "pandas"
+    Updated "main.py" to change console outputs, and added comments to the code.
 
- 2 files changed, 29 insertions(+), 16 deletions(-)
+ 4 files changed, 105 insertions(+), 41 deletions(-)

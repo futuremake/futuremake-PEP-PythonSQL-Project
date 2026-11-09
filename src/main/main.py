@@ -61,58 +61,6 @@ def load_and_clean_users(file_path):
     # print("TODO: load_users")
 
     # Ernest's Solution 1:
-    
-    # # Trial 1:
-    # # Extract: loading the raw data file into a pandas dataframe
-    # df = pd.read_csv(file_path, sep=",", encoding="utf-8")
-
-    # # Function Variables
-    # rows_read = len(df)
-    # skipped_rows = []
-    # conn = sqlite3.connect(':memory:')
-
-    # # Inspecting the Extracted Data
-    # print(df.head())
-
-    # # Accessing a row
-    # print(df.loc[0])
-
-    # # Accessing a column in the row
-    # print(df.loc[0]["firstName"])
-
-    # # Transform: Read each Row in the dataframe
-    # for num in range(rows_read):
-
-    #     # If the row has too much or too little values, drop it
-    #     if len(df.loc[num]) != 2:
-    #         skipped_rows.append(df.loc[num])
-    #         df = df.drop([num])
-    #         continue
-            
-    #     # If the row has any missing values, drop it
-    #     for col in len(df.loc[num]):
-    #         if df.loc[num][col] == '':
-    #             skipped_rows.append(df.loc[num])
-    #             df = df.dropna(axis=0)
-    #             continue
-
-    # # Check how many rows were dropped 
-    # print("Number of rows skipped: ", len(skipped_rows))
-
-    # # If the Transformation was successful, say it
-    # print("Invalid user records removed!")
-
-    # # Load: Send the Transformed data into the SQL database
-    # df_sql = df.to_sql(name="users", connection=conn, if_exists="replace", index_label="id")
-
-    # # If everything went well, say so
-    # print(df_sql, " records were allowed into the database\'s 'users' table!")
-
-    # # Close the connection
-    # conn.close()
-
-
-    # Trial 2
     print("---------------------------------------------------------------------------")
     print("User Story 1: Get user data into the user table\n")
 
@@ -168,7 +116,7 @@ def load_and_clean_users(file_path):
     cursor.executemany("INSERT INTO users VALUES (?, ?, ?)", file_data_3)
 
     # If the operation was a success, say so.
-    print("population of user table complete!\n")
+    print("Population of user table complete!\n")
 
 
 # This function will load the callLogs.csv file into the callLogs table, discarding any records with incomplete data
@@ -176,56 +124,7 @@ def load_and_clean_call_logs(file_path):
 
     # print("TODO: load_call_logs")
 
-    # Ernest's Solution:
-
-    # # Trial 1:
-    # # Extract: loading the Raw data file into a panda's dataframe
-    # df = pd.read_csv(file_path, sep=",", encoding="utf-8")
-
-    # # Function Variables
-    # rows_read = len(df)
-    # skipped_rows = []
-
-    # # Inspecting the Extracted Data
-    # print(df.head())
-
-    # # Accessing a row
-    # print(df.loc[0])
-
-    # # Accessing a column in a row
-    # print(df.loc[0]["phoneNumber"])
-
-    # # Transform: Read each record in the dataframe
-    # for num in range(rows_read):
-
-    #     # If the record has too much or too little values, drop it
-    #     if len(df.loc[num]) != 5:
-    #         skipped_rows.append(df.loc[num])
-    #         df = df.drop([num])
-
-    #     # If the record has missing values, drop it
-    #     for col in len(df.loc[num]):
-    #         if df.loc[num][col] == '':
-    #             skipped_rows.append(df.loc[num])
-    #             df = df.drop([num])
-
-    # # Check how many records were dropped
-    # print("Number of records dropped: ", len(skipped_rows))
-    
-    # # If the Transformation was successful, say so
-    # print("The Transformation was a success!")
-    
-    # # Load the cleaned data into the "callLogs" database table
-    # df_sql = df.to_sql(name="callLogs", connection=conn, if_exists='replace', index_label="id")
-
-    # # If everything went well, say so
-    # print(df_sql, " records were added into the database table 'callLogs!'")
-    
-    # # Close the connection
-    # conn.close()
-
-    
-    # Trial 2:
+    # Ernest's Solution 2:
     print("---------------------------------------------------------------------------")
     print("User Story 2: Get call data into the calLogs table\n")
     
@@ -281,7 +180,7 @@ def load_and_clean_call_logs(file_path):
     cursor.executemany("INSERT INTO callLogs VALUES (?, ?, ?, ?, ?, ?)", file_data_3)
 
     # If the operation was a success, say so.
-    print("Congradulations! you have populated the callLogs table! :)\n")
+    print("Congratulations! you have populated the callLogs table! :)\n")
 
 
 # This function will write analytics data to testUserAnalytics.csv - average call time, and number of calls per user.
@@ -290,89 +189,8 @@ def load_and_clean_call_logs(file_path):
 def write_user_analytics(csv_file_path):
 
     # print("TODO: write_user_analytics")
-    
-    # # Trial 1:
-    # res = cursor.execute(
-    #     """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
-    #         FROM callLogs
-    #         GROUP BY userId, avgStartTime, avgEndTime, numCalls;
-    #     """
-    # )
 
-    # # Trial 2:
-    # sql = (
-    #     """SELECT userId, AVG(startTime) AS avgStartTime, AVG(endTime) AS avgEndTime, SUM(userID) as numCalls
-    #          FROM callLogs
-    #          GROUP BY userId, avgStartTime, avgEndTime, numCalls;
-    #      """
-    # )
-
-    # retre_logs_df = pd.read_sql(sql, conn)
-
-    # # inspect the retrieved database data
-    # print(retre_logs_df)
-
-    # # clean up the data
-    # avgDurationArray = []
-
-    # for row in range(len(ret_logs_df)):
-    #     avgDur = (ret_logs_df[avgStartTime] + ret_logs_df[avgEndTime] / 2)
-    #     avgDurationArray.append(avgDur)
-
-    # avgDur_df = pd.dataframe(data=avgDurationArray columns=["avgDuration"])
-
-    # userId_df = retre_logs_df.loc[:, [userID]]
-
-    # sol_df = merge ()
-
-
-    # # Trial 3:
-    # sql = (
-    #     """SELECT userId, AVG(startTime) AS avgStartTime
-    #          FROM callLogs
-    #          GROUP BY userId;
-    #      """
-    # )
-
-    # sql_2 = (
-    #     """SELECT userId, AVG(endTime) AS avgEndTime
-    #          FROM callLogs
-    #          GROUP BY userId;
-    #      """
-    # )
-
-    # sql_3 = (
-    #     """SELECT userId, count(userID) AS numCalls
-    #          FROM callLogs
-    #          GROUP BY userId;
-    #      """
-    # )
-
-    # # Trial 4:
-    # sql = (
-    #     """SELECT userID, 
-    #             avgDuration = AVG(SUM(startTime) + SUM(endTime)),
-    #             COUNT(phoneNumber) as numCalls
-    #         FROM callLogs,
-    #         GROUP BY userID;
-    #     """
-    # ) 
-
-    # retre_data_df = pd.read_sql(sql, conn)
-    # print(retre_data_df)
-
-    # # Load the data into the 'userAnalytics.csv' file
-    # retre_data_df.to_csv(csv_file_path)
-
-    # # if the operation was successful, say so
-    # print("The data was successfully downloaded for analysis!")
-
-    # # Close the cursor and the connection
-    # cursor.close()
-    # conn.close()
-
-
-    # Trial 5
+    # Ernest's Solution 3:
     print("---------------------------------------------------------------------------")
     print("User Story 3: Saving user analytics data into userAnalytics.csv\n")
 
@@ -385,16 +203,16 @@ def write_user_analytics(csv_file_path):
     dict_2 = {}
 
 
-    # Extract: Get the data from the SQL "callLogs" table
+    # Extract: Get the data from the SQL "callLogs" table,
     #          Transformed as much as possible
     print("Beginning Extraction...\n")
 
     content = cursor.execute("""SELECT userID, 
-                                    SUM(startTime) AS sumStartTime,
-                                    SUM(endTime) As sumEndTime, 
+                                    AVG(startTime) AS avgStartTime,
+                                    AVG(endTime) As avgEndTime, 
                                     COUNT(phoneNumber) AS numCalls
                                 FROM callLogs
-                                GROUP BY userID;        
+                                GROUP BY userID;
                             """)
     # print("Content 1 Info:")
     content_data = cursor.fetchall()
@@ -405,7 +223,7 @@ def write_user_analytics(csv_file_path):
     print("Beginning Transformation...\n")
 
     for record in content_data:
-        temp_dur = (record[2] * 1.0) - (record[1] * 1.0) / 2
+        temp_dur = (record[2] * 1.0) - (record[1] * 1.0)
         # print("Call Duration:", temp_dur)
         temp_tup = []
         temp_tup.append(record[0])
@@ -432,35 +250,7 @@ def write_ordered_calls(csv_file_path):
 
     # print("TODO: write_ordered_calls")
 
-    # Ernest's Solution:
-
-    # Trial 1:
-    # # Create the connection(s) with the database
-    # conn = sqlite3.connect(':memory:')
-    # cursor = conn.cursor()
-
-    # # Extract the Data from the Database with a SQL Query
-    # sql = (
-    #     """SELECT callId, phoneNumber, startTime, endTime, direction, userId
-    #         FROM callLogs
-    #         ORDER BY userId, startTime;
-    #     """
-    # )
-
-    # retre_data_df = pd.read_sql(sql, conn)
-    # print(retre_data_df)
-    
-    # # Load the data into the 'orderedCalls.csv' file
-    # retre_data_df.to_csv(csv_file_path)
-
-    # # If the operation was successful, say so
-    # print("The call logs were successfully downloaded and ordered for analysis!")
-
-    # # Close the cursor and the connection
-    # cursor.close()
-    # conn.close()
-
-
+    # Ernest's Solution 4:
     # Trial 2: Working without pandas
     print("---------------------------------------------------------------------------")
     print("User Story 4: Saving order call logs into orderedCalls.csv\n")

@@ -37,3 +37,5 @@ Third: finally, the developer will extract the "Call Log" data from the database
 
 2. The code output to the console was cleaned up, and comments were added in "main.py". However, the outputs to "orderedCalls.csv" and "userAnalytics.csv" could be looked at.
 
+3. The data output to "userAnalytics" in the "avgDuration" section was faulty, because the formula to calulate it was faulty. Fixing the formulas in the SQL Query and during Transformation fixed the data in the "avgDuration" section.
+
