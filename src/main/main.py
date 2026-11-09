@@ -245,7 +245,12 @@ def write_user_analytics(csv_file_path):
     # Load: Load the data into the chosen CSV File
     print("Beginning Loading...\n")
 
-    with open(csv_file_path, "a", encoding="utf-8") as analy_file:
+    with open(csv_file_path, "w", encoding="utf-8") as analy_file:
+        
+        # Write the column headers
+        analy_file.write("userId,avgDuration,numCalls\n")
+
+        # Write the data records
         for record in analysis_array:
             # print(record)
             analy_file.write(f"{record[0]},{record[1]},{record[2]}\n")    
@@ -310,7 +315,11 @@ def write_ordered_calls(csv_file_path):
     # Load: Load the information into the CSV table
     print("Beginning Loading...\n")
     
-    with open(csv_file_path, "a", encoding="utf-8") as order_file:
+    with open(csv_file_path, "w", encoding="utf-8") as order_file:
+
+        # Write the column headers
+        order_file.write("callId,phoneNumber,startTime,endTime,direction,userId\n")
+        
         for record in transform_array_2:
             # print(record)
             order_file.write(f"{record[0]},{record[1]},{record[2]},{record[3]},{record[4]},{record[5]}\n")
