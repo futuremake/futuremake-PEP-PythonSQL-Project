@@ -245,24 +245,10 @@ def write_user_analytics(csv_file_path):
     # Load: Load the data into the chosen CSV File
     print("Beginning Loading...\n")
 
-    # Trial 1
-    # with open(csv_file_path, "a") as analy_file:
-    #     for record in analysis_array:
-    #         # print(record)
-    #         analy_file.write(f"{record[0]},{record[1]},{record[2]}\n")
-
-
-    # Trial 2
     with open(csv_file_path, "a", encoding="utf-8") as analy_file:
-
-        # Skipping the first line
-        # analy_file.seek(1)
-        # next(analy_file)
-
         for record in analysis_array:
             # print(record)
             analy_file.write(f"{record[0]},{record[1]},{record[2]}\n")    
-
 
     # If the operation was successful, say so
     print("User data successfully analyzed, and saved!")

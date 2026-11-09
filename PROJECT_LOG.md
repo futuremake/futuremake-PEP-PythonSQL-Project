@@ -41,3 +41,7 @@ Third: finally, the developer will extract the "Call Log" data from the database
 
 4. The project code was tested using "lab_test.py". the tests revealed a flaw with cleaning user data before loading into the database. The flaw was fixed.
 
+## November 9th, 2026 Monday
+
+1. The reason why the "ProjectTests.test_user_analytics_are_correct" test failed was because the file that the data was output to in the tests "testUserAnalytics.csv" had an extra empty line at the end. The function "writeUserAnalytics()" appends data to the end of the file. So, when the tests evaluated the "testUserAnalytics.csv" file, it saw that empty space and declared the test failed. Simply removing the space from "testUserAnalytics.csv" enabled the test to pass. Also, in "main.py", in function "writeUserAnalytics()", when loading the data into the csv file, the encoding was explictly set to "utf-8" to ensure the encoding is the same across all computer systems.
+
