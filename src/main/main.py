@@ -310,7 +310,7 @@ def write_ordered_calls(csv_file_path):
     # Load: Load the information into the CSV table
     print("Beginning Loading...\n")
     
-    with open(csv_file_path, "a") as order_file:
+    with open(csv_file_path, "a", encoding="utf-8") as order_file:
         for record in transform_array_2:
             # print(record)
             order_file.write(f"{record[0]},{record[1]},{record[2]},{record[3]},{record[4]},{record[5]}\n")
