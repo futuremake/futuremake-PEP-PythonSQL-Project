@@ -39,3 +39,5 @@ Third: finally, the developer will extract the "Call Log" data from the database
 
 3. The data output to "userAnalytics" in the "avgDuration" section was faulty, because the formula to calulate it was faulty. Fixing the formulas in the SQL Query and during Transformation fixed the data in the "avgDuration" section.
 
+4. The project code was tested using "lab_test.py". the tests revealed a flaw with cleaning user data before loading into the database. The flaw was fixed.
+
