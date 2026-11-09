@@ -2,10 +2,6 @@ import csv
 import os
 import sqlite3
 
-# Ernest's Imports
-# import pandas as pd
-import math
-
 # Resolve the resources folder relative to this file, so paths work
 # no matter what directory the script is run from.
 _RESOURCES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'resources')
@@ -94,17 +90,31 @@ def load_and_clean_users(file_path):
     print("Beginning Transformation...\n")
 
     for line in file_data:
+
+        # # Method 1
+        # line = line.replace('\n', '')
+        # temp_tup = (line.split(","))
+        # # print(temp_tup)
+
+
+        # Method 2
         line = line.replace('\n', '')
-        temp_tup = (line.split(","))
+        line_2 = line.split(",")
+        line_3 = []
+
+        for col in line_2:
+            line_3.append(col.strip())
+
+        # temp_tup = (line_3[0], line_3[1])
         # print(temp_tup)
 
-        if len(temp_tup) != 2:
+        if len(line_3) != 2:
             continue
 
-        if (temp_tup[0] == '') | (temp_tup[1] == ''):
+        if (line_3[0] == '') | (line_3[1] == ''):
             continue
-    
-        file_data_2.append(temp_tup)
+        
+        file_data_2.append(line_3)
 
     # print(file_data_2)
 
