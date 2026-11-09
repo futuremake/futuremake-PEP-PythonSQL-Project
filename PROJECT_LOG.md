@@ -35,3 +35,5 @@ Third: finally, the developer will extract the "Call Log" data from the database
 
 1. The Developer continued to complete the functions "write_user_analytics()" and "write_ordered_calls()", using SQLlite3, and Python's native file reading and writing functionality.
 
+2. The code output to the console was cleaned up, and comments were added in "main.py". However, the outputs to "orderedCalls.csv" and "userAnalytics.csv" could be looked at.
+
